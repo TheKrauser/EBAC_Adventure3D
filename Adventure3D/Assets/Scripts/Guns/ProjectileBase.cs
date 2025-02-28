@@ -18,4 +18,13 @@ public class ProjectileBase : MonoBehaviour
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            damageable.Damage(damage);
+            Destroy(gameObject);
+        }
+    }
 }
