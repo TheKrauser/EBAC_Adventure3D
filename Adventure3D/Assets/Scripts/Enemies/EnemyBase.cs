@@ -10,16 +10,23 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public Collider coll;
 
     public float startHealth = 10f;
-
-    private float currentHealth;
+    public float currentHealth;
 
     public float startAnimationDuration = 0.2f;
     public Ease startAnimationEase = Ease.OutBack;
     public bool startWithSpawnAnimation = false;
 
+    public bool lookAtPlayer = false;
+    private Player player;
+
     private void Awake()
     {
         Init();
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindObjectOfType<Player>();
     }
 
     protected virtual void Init()
@@ -49,7 +56,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void OnDamage(float damage)
     {
         if (currentHealth <= 0) return;
-        
+
         currentHealth -= damage;
 
         if (currentHealth <= 0)
@@ -71,5 +78,14 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void Damage(float damage)
     {
         OnDamage(damage);
+    }
+
+    public virtual void Update()
+    {
+        if (lookAtPlayer)
+        {
+            var targetPos = new Vector3(player.transform.position.x, this.transform.position.y, player.transform.position.z);
+            transform.LookAt(targetPos);
+        }
     }
 }

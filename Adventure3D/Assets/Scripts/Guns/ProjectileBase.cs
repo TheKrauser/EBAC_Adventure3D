@@ -7,6 +7,8 @@ public class ProjectileBase : MonoBehaviour
     public float damage;
     public float speed;
 
+    public List<string> tagsToHit;
+
     [SerializeField] private float timeToDestroy = 3f;
 
     private void Awake()
@@ -21,10 +23,17 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+        foreach (var tag in tagsToHit)
         {
-            damageable.Damage(damage);
-            Destroy(gameObject);
+            if (other.tag != tag) continue;
+
+            if (other.gameObject.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                damageable.Damage(damage);
+                Destroy(gameObject);
+            }
+
+            break;
         }
     }
 }

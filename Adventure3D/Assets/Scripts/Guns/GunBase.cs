@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GunBase : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GunBase : MonoBehaviour
     public float speed = 20f;
 
     private Coroutine currentCoroutine;
+
+    public Action OnShoot;
 
     protected virtual IEnumerator ShootCoroutine()
     {
@@ -27,6 +30,8 @@ public class GunBase : MonoBehaviour
         projectile.transform.position = positionToShoot.transform.position;
         projectile.transform.rotation = positionToShoot.rotation;
         projectile.speed = speed;
+
+        OnShoot?.Invoke();
     }
 
     public void StartShoot()

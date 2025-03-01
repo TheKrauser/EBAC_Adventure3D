@@ -25,12 +25,12 @@ public class StateMachine<T> where T : System.Enum
         dictState.Add(typeEnum, state);
     }
 
-    public void SwitchState(T state)
+    public void SwitchState(T state, params object[] objs)
     {
         if (currentState != null) currentState.OnStateExit();
 
         currentState = dictState[state];
-        currentState.OnStateEnter();
+        currentState.OnStateEnter(objs);
     }
 
     public void Update()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     public CharacterController characterController;
     public Animator animator;
@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     public float gravity = 9.8f;
     private float vSpeed = 0f;
 
+    public int health;
+    private int currentHealth;
+    public bool isDead = false;
+
     public KeyCode keyJump = KeyCode.Space;
     public float jumpSpeed = 15f;
 
@@ -19,11 +23,16 @@ public class Player : MonoBehaviour
     public KeyCode keyRun = KeyCode.LeftShift;
     public float speedRun = 1.5f;
 
+    private void Start()
+    {
+        currentHealth = health;
+    }
+
     void Update()
     {
-        transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
+        transform.Rotate(0, !isDead ? Input.GetAxis("Horizontal") : 0 * turnSpeed * Time.deltaTime, 0);
 
-        var inputAxisVertical = Input.GetAxis("Vertical");
+        var inputAxisVertical = !isDead ? Input.GetAxis("Vertical") : 0;
         var speedVector = transform.forward * inputAxisVertical * speed;
         vSpeed -= gravity * Time.deltaTime;
         speedVector.y = vSpeed;
@@ -44,10 +53,12 @@ public class Player : MonoBehaviour
             vSpeed = 0;
             if (Input.GetKeyDown(keyJump))
             {
+                if (isDead) return;
+                
                 vSpeed = jumpSpeed;
             }
         }
-        
+
         vSpeed -= gravity * Time.deltaTime;
 
         var isWalking = inputAxisVertical != 0;
@@ -55,6 +66,8 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey(keyRun))
             {
+                if (isDead) return;
+
                 speedVector *= speedRun;
                 animator.speed = speedRun;
             }
@@ -63,6 +76,15 @@ public class Player : MonoBehaviour
                 animator.speed = 1;
             }
         }
+
+        animator.SetBool("isDead", isDead);
+    }
+
+    public void Damage(float damage)
+    {
+        currentHealth -= (int)damage;
+
+        if (currentHealth <= 0) isDead = true;
     }
 
     /*private void Movement()
