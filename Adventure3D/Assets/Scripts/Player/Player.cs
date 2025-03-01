@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamageable
+public class Player : Singleton<Player>, IDamageable
 {
     public CharacterController characterController;
     public Animator animator;
@@ -28,14 +28,14 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        currentHealth = health;
+        ResetHealth();
         uiHealth.UpdateValue((float)currentHealth / health);
         initialPosition = transform.position;
     }
 
     void Update()
     {
-        transform.Rotate(0, !isDead ? Input.GetAxis("Horizontal") : 0 * turnSpeed * Time.deltaTime, 0);
+        transform.Rotate(0, (!isDead ? Input.GetAxis("Horizontal") : 0) * turnSpeed * Time.deltaTime, 0);
 
         var inputAxisVertical = !isDead ? Input.GetAxis("Vertical") : 0;
         var speedVector = transform.forward * inputAxisVertical * speed;
@@ -83,6 +83,12 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         animator.SetBool("isDead", isDead);
+    }
+
+    public void ResetHealth()
+    {
+        currentHealth = health;
+        uiHealth.UpdateValue((float)currentHealth / health);
     }
 
     public void Damage(float damage)
