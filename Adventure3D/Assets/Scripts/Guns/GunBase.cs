@@ -44,4 +44,14 @@ public class GunBase : MonoBehaviour
     {
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
     }
+
+    public virtual int GetMaxAmmo()
+    {
+        return 0;
+    }
+
+    public virtual int GetCurrentAmmo()
+    {
+        return 0;
+    }
 }

@@ -44,6 +44,7 @@ public class HealthBase : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            currentHealth = 0;
             Kill();
             Debug.Log("Killed");
         }

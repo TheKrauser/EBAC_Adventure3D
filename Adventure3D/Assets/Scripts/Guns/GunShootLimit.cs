@@ -47,4 +47,14 @@ public class GunShootLimit : GunBase
         reloading = false;
         currentBullets = 0;
     }
+
+    public override int GetMaxAmmo()
+    {
+        return maxBullets;
+    }
+
+    public override int GetCurrentAmmo()
+    {
+        return currentBullets;
+    }
 }

@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IDamageable
 {
     public CharacterController characterController;
     public Animator animator;
+    public UI_Updater uiHealth;
 
     public float speed = 1f;
     public float turnSpeed = 1f;
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour, IDamageable
     public int health;
     private int currentHealth;
     public bool isDead = false;
+    public float timeToRespawn = 4f;
+    private Vector3 initialPosition;
 
     public KeyCode keyJump = KeyCode.Space;
     public float jumpSpeed = 15f;
@@ -26,6 +29,8 @@ public class Player : MonoBehaviour, IDamageable
     private void Start()
     {
         currentHealth = health;
+        uiHealth.UpdateValue((float)currentHealth / health);
+        initialPosition = transform.position;
     }
 
     void Update()
@@ -54,7 +59,7 @@ public class Player : MonoBehaviour, IDamageable
             if (Input.GetKeyDown(keyJump))
             {
                 if (isDead) return;
-                
+
                 vSpeed = jumpSpeed;
             }
         }
@@ -82,58 +87,38 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage(float damage)
     {
-        currentHealth -= (int)damage;
+        if (currentHealth <= 0) return;
 
-        if (currentHealth <= 0) isDead = true;
+        currentHealth -= (int)damage;
+        uiHealth.UpdateValue((float)currentHealth / health);
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            isDead = true;
+            StartCoroutine(RespawnCoroutine());
+        }
     }
 
-    /*private void Movement()
+    private IEnumerator RespawnCoroutine()
     {
-        transform.Rotate(0, Input.GetAxis("Horizontal") * turnSpeed * Time.deltaTime, 0);
+        yield return new WaitForSeconds(timeToRespawn);
+        Respawn();
+    }
 
-        inputAxisVertical = Input.GetAxis("Vertical");
-        var speedVector = transform.forward * inputAxisVertical * speed;
-        vSpeed -= gravity * Time.deltaTime; speedVector.y = vSpeed;
-        characterController.Move(speedVector * Time.deltaTime);
-
-        if (inputAxisVertical != 0)
+    public void Respawn()
+    {
+        if (!CheckpointManager.Instance.HasCheckpoint())
         {
-            animator.SetBool("isRunning", true);
+            transform.position = initialPosition;
         }
         else
         {
-            animator.SetBool("isRunning", false);
+            transform.position = CheckpointManager.Instance.GetCheckpointSpawnPosition();
         }
-    }
 
-    private void Jump(float inputAxisVertical)
-    {
-        var speedVector = transform.forward * inputAxisVertical * speed;
-        if (characterController.isGrounded)
-        {
-            vSpeed = 0;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                vSpeed = jumpSpeed;
-            }
-        }
-        vSpeed = gravity * Time.deltaTime;
+        isDead = false;
+        currentHealth = health;
+        uiHealth.UpdateValue((float)currentHealth / health);
     }
-
-    private void Run()
-    {
-        var isWalking = inputAxisVertical != 0;
-        if (isWalking)
-        {
-            if (Input.GetKey(keyRun))
-            {
-                speedVector *= speedRun;
-                animator.speed = speedRun;
-            }
-            else
-            {
-                animator.speed = 1;
-            }
-        }
-    }*/
 }

@@ -15,9 +15,11 @@ public class PlayerAbilityShoot : PlayerAbilityBase
 
     private GunBase currentGun;
 
+    public UI_Updater uiAmmo;
+
     private void Update()
     {
-
+        uiAmmo.UpdateValue(currentGun.GetMaxAmmo(), currentGun.GetCurrentAmmo());
     }
 
     protected override void Init()
@@ -47,7 +49,7 @@ public class PlayerAbilityShoot : PlayerAbilityBase
     private void SwitchGun(int n)
     {
         currentGun.StopShoot();
-        
+
         if (n == 1)
         {
             currentGun = primaryGun;
