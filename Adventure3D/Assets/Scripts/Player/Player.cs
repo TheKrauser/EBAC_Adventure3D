@@ -89,6 +89,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         if (currentHealth <= 0) return;
 
+        ShakeCamera.Instance.Shake(2f, 2f, 0.2f);
         currentHealth -= (int)damage;
         uiHealth.UpdateValue((float)currentHealth / health);
 
