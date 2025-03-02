@@ -12,6 +12,7 @@ public class Player : Singleton<Player>, IDamageable
     public float turnSpeed = 1f;
     public float gravity = 9.8f;
     private float vSpeed = 0f;
+    public bool isInvincible = false;
 
     public int health;
     private int currentHealth;
@@ -25,6 +26,8 @@ public class Player : Singleton<Player>, IDamageable
     [Header("Run Setup")]
     public KeyCode keyRun = KeyCode.LeftShift;
     public float speedRun = 1.5f;
+
+    [SerializeField] private ClothChanger clothChanger;
 
     private void Start()
     {
@@ -91,9 +94,47 @@ public class Player : Singleton<Player>, IDamageable
         uiHealth.UpdateValue((float)currentHealth / health);
     }
 
+    public void ChangeSpeed(float speed, float duration)
+    {
+        StartCoroutine(ChangeSpeedCoroutine(speed, duration));
+    }
+
+    private IEnumerator ChangeSpeedCoroutine(float targetSpeed, float duration)
+    {
+        var defaultSpeed = speed;
+        speed = targetSpeed;
+        yield return new WaitForSeconds(duration);
+        speed = defaultSpeed;
+    }
+
+    public void TurnInvincibility(float duration)
+    {
+        StartCoroutine(TurnInvincibilityCoroutine(duration));
+    }
+
+    private IEnumerator TurnInvincibilityCoroutine(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+    }
+
+    public void ChangeTexture(ClothSetup setup, float duration)
+    {
+        StartCoroutine(ChangeTextureCoroutine(setup, duration));
+    }
+
+    private IEnumerator ChangeTextureCoroutine(ClothSetup setup, float duration)
+    {
+        clothChanger.ChangePlayerTexture(setup);
+        yield return new WaitForSeconds(duration);
+        clothChanger.ResetTexture();
+    }
+
     public void Damage(float damage)
     {
         if (currentHealth <= 0) return;
+        if (isInvincible) return;
 
         ShakeCamera.Instance.Shake(2f, 2f, 0.2f);
         currentHealth -= (int)damage;
