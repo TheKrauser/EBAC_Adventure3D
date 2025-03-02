@@ -25,6 +25,8 @@ public class ItemManager : MonoBehaviour
     private void Start()
     {
         Reset();
+        AddByType(ItemType.LIFE_PACK, SaveManager.Instance.saveSetup.healthPacks);
+        AddByType(ItemType.COIN, SaveManager.Instance.saveSetup.coins);
     }
 
     private void Reset()

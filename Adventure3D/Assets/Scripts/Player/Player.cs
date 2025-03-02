@@ -28,12 +28,18 @@ public class Player : Singleton<Player>, IDamageable
     public float speedRun = 1.5f;
 
     [SerializeField] private ClothChanger clothChanger;
+    public GameObject particle;
 
     private void Start()
     {
         ResetHealth();
-        uiHealth.UpdateValue((float)currentHealth / health);
         initialPosition = transform.position;
+
+        if (SaveManager.Instance.saveSetup.playerPosition != Vector3.zero)
+            transform.position = SaveManager.Instance.saveSetup.playerPosition;
+
+        currentHealth = SaveManager.Instance.saveSetup.health == 0 ? health : SaveManager.Instance.saveSetup.health;
+        uiHealth.UpdateValue((float)currentHealth / health);
     }
 
     void Update()
@@ -49,10 +55,12 @@ public class Player : Singleton<Player>, IDamageable
         if (inputAxisVertical != 0)
         {
             animator.SetBool("isRunning", true);
+            particle.SetActive(true);
         }
         else
         {
             animator.SetBool("isRunning", false);
+            particle.SetActive(false);
         }
 
         speedVector = transform.forward * inputAxisVertical * speed;
@@ -88,8 +96,20 @@ public class Player : Singleton<Player>, IDamageable
         animator.SetBool("isDead", isDead);
     }
 
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public Vector3 GetCurrentPosition()
+    {
+        return transform.position;
+    }
+
     public void ResetHealth()
     {
+        if (isDead) return;
+
         currentHealth = health;
         uiHealth.UpdateValue((float)currentHealth / health);
     }
@@ -157,13 +177,15 @@ public class Player : Singleton<Player>, IDamageable
 
     public void Respawn()
     {
-        if (!CheckpointManager.Instance.HasCheckpoint())
+        if (SaveManager.Instance.saveSetup.lastCheckpoint == 0)
         {
+            Debug.Log(initialPosition);
             transform.position = initialPosition;
         }
         else
         {
-            transform.position = CheckpointManager.Instance.GetCheckpointSpawnPosition();
+            Debug.Log(SaveManager.Instance.saveSetup.playerPosition);
+            transform.position = SaveManager.Instance.saveSetup.playerPosition;
         }
 
         isDead = false;

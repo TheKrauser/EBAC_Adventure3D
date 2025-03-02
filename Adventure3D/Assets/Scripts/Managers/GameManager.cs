@@ -15,8 +15,9 @@ public class GameManager : Singleton<GameManager>
 
     public StateMachine<GameStates> stateMachine;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

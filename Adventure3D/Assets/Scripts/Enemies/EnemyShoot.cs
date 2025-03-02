@@ -11,4 +11,10 @@ public class EnemyShoot : EnemyBase
         base.Init();
         gunBase.StartShoot();
     }
+
+    protected override void OnKill()
+    {
+        base.OnKill();
+        gunBase.StopShoot();
+    }
 }

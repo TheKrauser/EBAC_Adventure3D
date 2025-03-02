@@ -24,8 +24,9 @@ public class PlayerController : Singleton<PlayerController>
         DEAD
     }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<Collider>();
         visuals = GetComponentInChildren<Transform>();
