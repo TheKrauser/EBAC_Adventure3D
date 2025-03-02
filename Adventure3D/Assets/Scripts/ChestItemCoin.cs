@@ -39,7 +39,7 @@ public class ChestItemCoin : ChestItemBase
             item.transform.DOMoveY(1.5f, 0.5f).SetEase(Ease.OutBack).SetRelative().OnComplete(()=>
             {
                 item.gameObject.SetActive(false);
-                ParticleManager.Instance.SpawnParticle("Star", transform.position, 2f, 3);
+                ParticleManager.Instance.SpawnParticle("Star", item.transform.position, 2f, 3);
             });
             ItemManager.Instance.AddByType(ItemType.COIN, 1);
             yield return new WaitForSeconds(0.25f);
