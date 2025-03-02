@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1f4db104a6c6c41a8e96b625627856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 5
   speed: 30
   tagsToHit:
   - Enemy

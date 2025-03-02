@@ -9,6 +9,7 @@ public class HealthBase : MonoBehaviour
     public int currentHealth;
 
     public bool destroyOnKill = false;
+    public float timeToDestroy = 3f;
 
     public Action<HealthBase> OnDamage;
     public Action<HealthBase> OnKill;
@@ -31,7 +32,7 @@ public class HealthBase : MonoBehaviour
     protected virtual void Kill()
     {
         if (destroyOnKill)
-            Destroy(gameObject, 3f);
+            Destroy(gameObject, timeToDestroy);
 
         OnKill?.Invoke(this);
     }
