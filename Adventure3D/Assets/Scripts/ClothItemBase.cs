@@ -21,6 +21,7 @@ public class ClothItemBase : MonoBehaviour
     public virtual void Collect()
     {
         var setup = ClothManager.Instance.GetSetupByType(clothType);
+        ParticleManager.Instance.SpawnParticle("Magic Poof", transform.position, 2f, 4);
         Player.Instance.ChangeTexture(setup, duration);
         gameObject.SetActive(false);
     }

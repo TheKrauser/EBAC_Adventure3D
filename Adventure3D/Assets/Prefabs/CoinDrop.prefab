@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1301801810502094871}
   - component: {fileID: 1301801810502094865}
   - component: {fileID: 1301801810502094864}
+  - component: {fileID: 3700536362086998610}
   m_Layer: 0
   m_Name: CoinDrop
   m_TagString: Untagged
@@ -60,6 +61,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   compareTag: Player
   itemType: 0
+--- !u!54 &3700536362086998610
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301801810502094870}
+  serializedVersion: 2
+  m_Mass: 5
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 96
+  m_CollisionDetection: 0
 --- !u!1 &1301801810566656295
 GameObject:
   m_ObjectHideFlags: 0
@@ -70,7 +87,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1301801810566656288}
   - component: {fileID: 3142851521599767186}
-  - component: {fileID: 7576660657829012487}
   m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
@@ -106,22 +122,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.7, y: 1.7, z: 0.5709202}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7576660657829012487
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301801810566656295}
-  serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 96
-  m_CollisionDetection: 0
 --- !u!1001 &1301801809119244828
 PrefabInstance:
   m_ObjectHideFlags: 0
