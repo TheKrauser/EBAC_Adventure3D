@@ -56,6 +56,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
     public void OnDamage(float damage)
     {
         if (currentHealth <= 0) return;
+        AudioManager.Instance.PlaySound("DamageEnemy");
         ParticleManager.Instance.SpawnParticle("Electric", transform.position, 2f, 4);
 
         currentHealth -= damage;

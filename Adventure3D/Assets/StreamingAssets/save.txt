@@ -1,11 +1,11 @@
 {
-    "coins": 1,
+    "coins": 7,
     "healthPacks": 2,
-    "health": 10,
+    "health": 12,
     "playerPosition": {
-        "x": 499.0,
+        "x": 483.510009765625,
         "y": -3.75,
-        "z": 136.1999969482422
+        "z": 77.25
     },
-    "lastCheckpoint": 3
+    "lastCheckpoint": 2
 }

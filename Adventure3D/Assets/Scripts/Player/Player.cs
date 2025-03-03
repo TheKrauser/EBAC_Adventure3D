@@ -72,6 +72,7 @@ public class Player : Singleton<Player>, IDamageable
                 if (isDead) return;
 
                 vSpeed = jumpSpeed;
+                AudioManager.Instance.PlaySound("Jump");
             }
         }
 
@@ -155,6 +156,7 @@ public class Player : Singleton<Player>, IDamageable
     {
         if (currentHealth <= 0) return;
         if (isInvincible) return;
+        AudioManager.Instance.PlaySound("DamagePlayer");
 
         ParticleManager.Instance.SpawnParticle("Blood", transform.position, 2f, 4);
         ShakeCamera.Instance.Shake(2f, 2f, 0.2f);

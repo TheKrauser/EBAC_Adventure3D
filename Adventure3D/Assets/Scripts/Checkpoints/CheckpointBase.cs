@@ -33,6 +33,7 @@ public class CheckpointBase : MonoBehaviour
             meshRenderer.material.SetColor("_Color", Color.green);
             meshRenderer.material.SetColor("_EmissionColor", Color.green);
             hasActivated = true;
+            AudioManager.Instance.PlaySound("Checkpoint");
             SaveCheckpoint();
         }
         else

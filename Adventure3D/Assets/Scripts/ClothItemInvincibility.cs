@@ -8,5 +8,6 @@ public class ClothItemInvincibility : ClothItemBase
     {
         base.Collect();
         Player.Instance.TurnInvincibility(duration);
+        AudioManager.Instance.PlaySound("Invincible");
     }
 }

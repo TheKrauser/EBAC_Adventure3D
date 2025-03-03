@@ -20,8 +20,7 @@ public class ItemCollectableCoin : ItemCollectableBase
         base.Visuals.gameObject.SetActive(false);
         base.Coll.enabled = false;
         ParticleManager.Instance.SpawnParticle("Magic Hit", transform.position, 2f, 4);
-
-        if(base.AudioSource != null) base.AudioSource.Play();
+        AudioManager.Instance.PlaySound("Coin");
 
         //Destroy(obj, 3f);
         Destroy(gameObject, 3f);

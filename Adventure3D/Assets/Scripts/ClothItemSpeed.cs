@@ -9,5 +9,6 @@ public class ClothItemSpeed : ClothItemBase
     {
         base.Collect();
         Player.Instance.ChangeSpeed(targetSpeed, duration);
+        AudioManager.Instance.PlaySound("Speed");
     }
 }
